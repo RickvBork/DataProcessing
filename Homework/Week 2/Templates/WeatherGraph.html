@@ -1,0 +1,326 @@
+<DOCTYPE html>
+    <head>
+        <title>KNMI weather graph</title>
+    </head>
+    <meta>
+    <body>
+        <h2>
+            <center>JavaScript intro, Rick van Bork (1190503)</center>
+        </h2>
+        <h4>
+            <center>
+                <a href='http://projects.knmi.nl/klimatologie/daggegevens/selectie.cgi'>data bron</a>
+            </center>
+        </h4>
+        <div>
+        <canvas id="graph" width="600" height ="300"></canvas>
+        </div>
+        <script>
+
+            /*
+            * fetches local data and calls back when data is successfully
+            * fetched
+            */
+            function getDataKNMI (file, callback) {
+
+                // begin request to fetch local data
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+
+                    // check status of request
+                    if (this.readyState == 4 && this.status == 200) {
+                        callback(this.responseText);
+                    }
+                };
+                xhttp.open("GET", file, true);
+                xhttp.send();
+            }
+
+            /*
+            * formats the KNMI data Text into a dict
+            */
+            function formatDataKNMI (dataText) {
+
+                // make datalists
+                var dates = [], temp = [], months = [];
+                var startingYear, startingDay;
+
+                // split lines
+                var lines = dataText.split('\n');
+
+                // begin formatting each line of data
+                for (var i = 0; i < lines.length; i++){
+
+                    // if a line does not start with a hash
+                    if (lines[i].startsWith("#") != true) {
+
+                        // remove ALL whitespace chars split in list on ','
+                        var columns = lines[i].replace(/ /g,'').split(',');
+
+                        // catch empty strings
+                        if (columns != '') {
+                            dates.push(columns[1]);
+                            temp.push(parseInt(columns[2]));
+
+                            // get starting dates once for correct labelling
+                            if (startingYear == undefined) {
+                                startingYear = columns[1].slice(0, 4);
+                                startingDay = columns[1].slice(6,8);
+                            }
+                            // get all month codes from columns
+                            var month = parseInt(columns[1].slice(4, 6));
+                            if (months.indexOf(month) > -1 != true) {
+                                months.push(month);
+                            }
+                        }
+                    }
+                }
+                // fill days array, begin at 1
+                var daysArray = [];
+                for (i = 0; i < dates.length; i++) {
+                    daysArray.push(i + 1);
+                }
+
+                // get minimum and maximum of data
+                var daysMinMax = [Math.min.apply(null, daysArray), Math.max.apply(null, daysArray)];
+                var tempMinMax = [Math.min.apply(null, temp), Math.max.apply(null, temp)];
+
+                // fill data dict
+                var datas = {
+                    day: {array: daysArray, range: daysMinMax, start: startingDay},
+                    temperature: {array: temp, range: tempMinMax},
+                    month: {array: months}
+                };
+                // return dict
+                return datas;
+            }
+
+            /*
+            * creates the transformation function for a given graph's size
+            */
+            function createTransform(domain, range, XorY, offset){
+                var domain_min = domain[0];
+                var domain_max = domain[1];
+
+                // switch max and min to invert Y-axis because origin is upper left
+                var range_min = range[0];
+                var range_max = range[1];
+
+                // formulas to calculate the alpha and the beta
+               	var alpha = (range_max - range_min) / (domain_max - domain_min);
+                var beta = range_max - alpha * domain_max;
+
+                // returns the function for the linear transformation (y= a * x + b)
+                if (XorY == 'Y') {
+                    return function(x) {
+                        return alpha * x + (beta - offset);
+                    };
+                }
+                else {
+                    return function(x) {
+                        return alpha * x + (beta + offset);
+                    };
+                }
+            }
+
+            /*
+            * draws the graph
+            */
+            function drawGraph(data) {
+
+                // initiates canvas
+                var canvas = document.getElementById('graph');
+                var ctx = canvas.getContext('2d');
+
+                // coordinates graph-axis limits for autoreformat, get from user input?
+                var graph = {
+
+                    // origin and end denote the GRAPH RANGE, so any point a data point can be drawn
+                    origin: {x: 50, y: 50},
+                    end: {x: document.getElementById('graph').getAttribute('width'),
+                        y: document.getElementById('graph').getAttribute('height') - 50},
+                    offset : {x: 10, y: 10},
+                    labelLine: 10,
+                    axis: {y: {fontSize: 15, labelSize: 5, format: 'C'},
+                        x: {fontSize: 15, format: 'M', labelSize: 15}}
+                };
+
+                // set arrays
+                var xMinMaxArray = data.day.range;
+                var yMinMaxArray = data.temperature.range;
+                var xArray = data.day.array;
+                var yArray = data.temperature.array;
+
+                // create transform functions
+                var transformX = createTransform(xMinMaxArray, [graph.origin.x, graph.end.x], 'X', graph.offset.x);
+                var transformY = createTransform(yMinMaxArray, [graph.end.y, graph.origin.y], 'Y', graph.offset.y);
+
+                // start labelling just under the lowest datapoint
+                var yStart = Math.floor(yMinMaxArray[0] / 10) * 10;
+                var yCanvasStart = transformY(yStart);
+
+                // add axis (x,y)
+                ctx.beginPath();
+                ctx.moveTo(graph.origin.x, transformY(yMinMaxArray[1]) - Math.abs(graph.offset.y));
+                ctx.lineTo(graph.origin.x, yCanvasStart);
+                ctx.moveTo(transformX(xMinMaxArray[0]), graph.end.y);
+                ctx.lineTo(transformX(xMinMaxArray[1]), graph.end.y);
+                ctx.stroke();
+
+                // draw the graph lines from xMinMaxArray dict loop for number of days
+                ctx.beginPath();
+                ctx.moveTo(transformX(xArray[0]), transformY[yArray[0]]);
+                for (i = 0; i < xArray.length; i++) {
+                    ctx.lineTo(transformX(xArray[i]), transformY(yArray[i]));
+                }
+                ctx.stroke();
+
+                //draw X-axis lines, begin at start of data
+                ctx.font = graph.axis.x.fontSize + 'px arial';
+
+                // 'Y' can later be replaced by any response to user input
+                X = transformX(xArray[0]);
+                var Y = graph.end.y;
+                ctx.beginPath();
+
+                // make month notation
+                if (graph.axis.x.format == 'M') {
+
+                    if (data.day.array.length == 366) {
+                        var leapYear = true;
+                    }
+                    // make months list with all usefull information
+                    // can be done by / by ~30, this is better
+                    var months = [{'Jan': 31}, {'Feb': 28}, {'Mar': 31},
+                        {'Apr': 30}, {'May': 31}, {'Jun': 30}, {'Jul': 31},
+                        {'Aug': 31}, {'Sep': 30}, {'Okt': 31}, {'Nov': 30},
+                        {'Dec': 31}];
+
+                    // get starting month
+                    var startingMonth = data.month.array[0];
+                    var startingDay = data.day.start;
+                    var iter = data.month.array.length;
+                    var xJump;
+                    var xLabelText;
+
+                    for (i = 0; i < iter; i++) {
+
+                        // for first month jump this many days to next month
+                        if (i == 0) {
+                            xJump = Object.values(months[startingMonth - 1])[0] - startingDay + 1;
+                        }
+                        // jump whole month worth of days
+                        else {
+                            // wrap around months object
+                            xJump = Object.values(months[(startingMonth + i - 1) % 12])[0];
+                        }
+                        // catch leapyear exception
+                        if (((i == 1) || (startingMonth == 2)) && leapYear) {
+                            xJump++;
+                        }
+                        console.log(Object.keys(months[startingMonth + i - 1])[0]);
+
+                        ctx.moveTo(X, Y + graph.labelLine);
+                        ctx.lineTo(X, Y);
+                        xLabelText = Object.keys(months[startingMonth + i - 1])[0];
+
+                        // save context, translate origin to labelpoint, rotate
+                        ctx.save();
+                        ctx.translate(X, Y);
+                        ctx.rotate(- 25 * Math.PI / 180);
+                        ctx.fillText(xLabelText,
+                            0 - ctx.measureText(xLabelText).width - graph.labelLine,
+                            0 + 2 * graph.labelLine);
+                        ctx.restore();
+
+                        // jump with the exact value of the given month, xJump in days
+                        X += ((graph.end.x - graph.origin.x) / xArray.length) * xJump;
+                    }
+                    ctx.stroke();
+                }
+                // make day notation
+                else {
+                    // distance between labels by whole days, user input
+                    xJump = graph.axis.x.labelSize;
+                    iter = data.day.array.length / xJump;
+                    for (i = 0; i < iter; i++) {
+                        ctx.moveTo(X, Y + graph.labelLine);
+                        ctx.lineTo(X, Y);
+
+                        // adjustments to fit wider labels center text to label
+                        ctx.fillText(i * xJump,
+                            X - ctx.measureText(i).width / 2,
+                            Y + (2.5 * graph.labelLine),
+                            xJump);
+
+                        // jump with the exact value of the given month, xJump in days
+                        X += ((graph.end.x - graph.origin.x) / xArray.length) * xJump;
+                    }
+                    ctx.stroke();
+                }
+                // erase anything in this block to make room for title
+                ctx.clearRect(0, 0, graph.end.x, graph.origin.y);
+
+                // make title in the middle of the graph
+                ctx.font = '20px times new roman';
+                var title = 'Maximum Temperature in the Bilt (NL)';
+                var titleWidth = ctx.measureText(title).width;
+                ctx.fillText(title, (graph.end.x - graph.origin.x - titleWidth) / 2, graph.origin.y / 2);
+
+                // erase anything in this block to clear graph for zoom and shift
+                ctx.clearRect(0, 0, graph.origin.x, graph.end.y + graph.origin.y);
+
+                // draw Y-axis label lines that move with data
+                var X = graph.origin.x;
+
+                // catch exception of drawing a Y label below end of the Y axis
+                if (graph.offset.y == 0) {
+                    Y = graph.end.y;
+                }
+                else {
+                    Y = yCanvasStart;
+                }
+
+                // make Y-label text cooperate with labels, any size
+                ctx.font = graph.axis.y.fontSize + 'px arial';
+                var yTotal = yMinMaxArray[1] - yMinMaxArray[0];
+                ctx.beginPath();
+                for (var i = (yStart / 10); i < yTotal; i += graph.axis.y.labelSize) {
+                    ctx.moveTo(X - graph.labelLine, Y);
+
+                    // the offsets work with any text of any size
+                    ctx.fillText(String(i) + "\u2103",
+                        X - ctx.measureText(String(i) + "\u2103").width - graph.labelLine,
+                            Y + (graph.axis.y.fontSize / 4));
+                    ctx.lineTo(X, Y);
+                    Y -= transformY(0) - transformY(graph.axis.y.labelSize * 10);
+
+                    // kill label line if it exceeds the origin value
+                    if (Y < graph.origin.y) {
+                        break;
+                    }
+                }
+                ctx.stroke();
+
+                // erase anything in this block to clear graph for zoom and shift
+                ctx.clearRect(0, graph.end.y + graph.origin.y / 1.5, graph.end.x, 20);
+
+                // make description
+                ctx.font = '15px times new roman';
+                title = 'Degrees';
+                titleWidth = ctx.measureText(title).width;
+                ctx.fillText(title, (graph.origin.x - titleWidth) / 2, graph.origin.y / 2);
+                title = 'Date';
+                titleWidth = ctx.measureText(title).width;
+                ctx.fillText(title, (graph.end.x - graph.origin.x - titleWidth) / 2, graph.end.y + graph.origin.y);
+            }
+
+            // fetches data as text
+            getDataKNMI("KNMI_20161231.txt", function(text) {
+
+                // draw graph
+                drawGraph(formatDataKNMI(text));
+            });
+        </script>
+    </body>
+</DOCTYPE html>

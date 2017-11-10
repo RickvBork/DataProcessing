@@ -1,0 +1,15 @@
+1. Double char boolean checks are type converting checks, e.g. '001' == 1; Because JS
+    converts the types to compare them equeally. But they are not always truly equal,
+    triple char boolean checks are strict, they do not convert types and thus values must be truly equeal.
+    e.g. '001' == 1 (true) but '001' === 1 (false).
+
+2. A closure is a function within a function that gives access to the outer functions scope. So even if the
+    function that created the variable is returned, the local variable is still accessable if the inner function has been
+    mapped to a variable.
+
+3. Functions that operate on other functions are called Higher Order Functions, these abstract the meaning of the underlying code block.
+    Code containing a million rules can be condensed into 1 or 2 higher order functions for ultimate abstraction.
+
+4. querySelector() is a method of the document Object/Class that selects a given CSS attributes.
+    e.g. document.querySelector('h1.choose me!'), selects the first (AND only the first!) h1 tag and the first
+    'choose me! class within it.

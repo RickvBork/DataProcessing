@@ -1,0 +1,11 @@
+Helaas te laat ingeleverd, had niet gezien dat de deadline om 1 uur vanmiddag was.
+Als ik dat had geweten had ik een veel minder ambitieuze (niet dynamische) versie ingeleverd.
+
+Was bezig met verplaatsen en inzoomen van de grafiek, kan handmatig proberen door in:
+    graph.offset.x/y aan te passen.
+    probeer ook wat andere waardes te veranderen in de graph Object
+    x-as valt verplaats nog niet met aanpassen van y waarde.
+
+Ik weet dat het lelijk is opgemaakt maar beter iets ingeleverd dan niks...
+
+http://ide50-rickvbork.cs50.io:8080/Templates/WeatherGraph.html
