@@ -126,10 +126,11 @@ function drawBars(chart, data) {
     // show tooltip on mouseover
     .on("mouseover", function(d){
       tip.show(d);
-      d3.select(this).style("fill", "darkblue");
+      d3.select(this).style("fill", "darkblue"); 
+    })
     
     // hide tooltip on mouseout
-    }).on("mouseout", function(d){
+    .on("mouseout", function(d){
       tip.hide(d);
       d3.select(this).style("fill", "cornflowerblue");
     });
