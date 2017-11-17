@@ -171,6 +171,7 @@ function buildBarchart(data) {
 }
 
 // scale for the chart
+// can be used to allow user to change chart size
 var scale = 1.0,
 
 // width and height with margins accounted for
