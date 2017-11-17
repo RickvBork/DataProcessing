@@ -1,0 +1,28 @@
+<!DOCTYPE>
+
+<html>
+	<head>
+
+		<!-- Initiate d3 library v3 -->
+		<script src = "//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+		<!-- Initiate d3-tip library -->
+		<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+		<!-- initiate css markup file and JS file -->
+		<link rel = "stylesheet" type = "text/css" href = "barchartStyle.css"/>
+		<script src = "barchart.js" charset = "utf-8"></script>
+
+		<title>Weather bar chart</title>
+	</head>
+	<body>
+		<svg class="chart"></svg>
+		<button type="button" id = "min">-</button>
+		<button type="button" id = "max">+</button>
+		<div id = 'title'>
+			<div>Rick van Bork</div>
+			<div>Stdn. nr. 11990503</div>
+			<div><a href='http://projects.knmi.nl/klimatologie/daggegevens selectie.cgi'>data source</a></div>
+		</div>
+	</body>
+</html>

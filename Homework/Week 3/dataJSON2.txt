@@ -1,0 +1,14 @@
+[
+	{month: "Jan", value: 1113},
+	{month: "Feb", value: 571},
+	{month: "Mar", value: 537},
+	{month: "Apr", value: 249},
+	{month: "May", value: 367},
+	{month: "Jun", value: 213},
+	{month: "Jul", value: 632},
+	{month: "Aug", value: 820},
+	{month: "Sep", value: 534},
+	{month: "Okt", value: 643},
+	{month: "Nov", value: 1212},
+	{month: "Dec", value: 581}
+]
