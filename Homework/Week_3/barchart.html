@@ -3,26 +3,29 @@
 <html>
 	<head>
 
+		<meta name = "Author: Rick van Bork." Content =  "Simple Barchart">
+
 		<!-- Initiate d3 library v3 -->
 		<script src = "//d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
 		<!-- Initiate d3-tip library -->
 		<script src="https://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
-		<!-- initiate css markup file and JS file -->
+		<!-- initiate css markup file -->
 		<link rel = "stylesheet" type = "text/css" href = "barchartStyle.css"/>
+
+		<!-- initiate barchart.js file -->
 		<script src = "barchart.js" charset = "utf-8"></script>
 
 		<title>Weather bar chart</title>
 	</head>
 	<body>
+		<h1>Total precipitation per month in 0.1h intervals (2015)</h1>
 		<svg class="chart"></svg>
-		<button type="button" id = "min">-</button>
-		<button type="button" id = "max">+</button>
-		<div id = 'title'>
-			<div>Rick van Bork</div>
-			<div>Stdn. nr. 11990503</div>
-			<div><a href='http://projects.knmi.nl/klimatologie/daggegevens selectie.cgi'>data source</a></div>
-		</div>
+		<!-- <button type="button" id = "min">-</button>
+		<button type="button" id = "max">+</button> -->
+		<p>Rick van Bork</p>
+		<p>Stdn. nr. 11990503</p>
+		<p><a href='http://projects.knmi.nl/klimatologie/daggegevens selectie.cgi'>data source</a></p>
 	</body>
 </html>

@@ -1,7 +1,15 @@
+/*
+* styles for the barchart.html
+*/
+
 div {
 	font-size: 100%;
 	text-align: right;
 	color: white;
+}
+
+h1 {
+	text-align: center;
 }
 
 svg {

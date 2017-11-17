@@ -1,5 +1,20 @@
 /*
-* formats the data in months
+* Author:   Rick van Bork
+* Std. nr.: 11990503
+*
+* Logic dictating the generation of the barchart in the barchart.html
+*
+* Uses the d3 library to make a barchart with Scalable Vector Graphics
+* The event listeners use the d3.js tooltip library.
+* 
+*/
+
+// used for fixing definitions
+'use strict';
+
+/*
+* formats the data from precipitation per day to
+* total precipitation per month.
 */
 function dataFormatter(unformattedDataDict) {
 
@@ -7,14 +22,21 @@ function dataFormatter(unformattedDataDict) {
 	console.log(unformattedDataDict)
 
 	// initiate data list
-	var formattedDataList = [];
+	var formattedDataList = [],
 
-	// nnon leap year month dict
+	// non leap year month dict
 	monthDict = {'01': 31, '02': 28, '03': 31, '04': 30, '05': 31, '06': 30, 
-	'07': 31,'08': 31, '09': 30, '10': 31, '11': 30, '12': 31};
+	'07': 31,'08': 31, '09': 30, '10': 31, '11': 30, '12': 31},
 
-	months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
+  // code labels for barchart
+	months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
 	length = months.length;
+
+  // catch leapyear
+  if (length == 365) {
+    monthDict['02'] += 1;
+    console.log(monthDict);
+  }
 
 	// change all rain value strings in ints
 	for (var i = 0; i < unformattedDataDict['date'].length; i++) {
@@ -31,20 +53,25 @@ function dataFormatter(unformattedDataDict) {
 			var newMonth = i + 1;
 		}
 
-		monthList = unformattedDataDict['precipitation'].slice(days, days + monthDict[newMonth]);
+    // slice correct month precipitation data from entire data list
+		var monthList = unformattedDataDict['precipitation'].slice(days, days + monthDict[newMonth]);
 
+    // get the sum of all the precipitation data from the new monthList
 		var result = monthList.reduce(function(accumulator, currentValue) {
 		    return accumulator + currentValue;
 		});
+
+    // push the data to a dict with a format that facilitates barchart building
 		formattedDataList.push(result);
 
+    // keep track of the beginning of a new month for next slicing month
 		days += monthDict[newMonth];
 	}
 
 	var maxValue = d3.max(formattedDataList);
 
 	// make list of dicts
-	formattedData = [];
+	var formattedData = [];
 	for (var i = 0; i < length; i++) {
 		formattedData.push({'month': months[i], 'value': formattedDataList[i]})
 	}
@@ -86,7 +113,7 @@ function drawAxes(chart) {
 function drawBars(chart, data) {
   
   // enter SVG rectangles as bars
-  rectEnter = chart.selectAll(".bar").data(data).enter()
+  var rectEnter = chart.selectAll(".bar").data(data).enter()
     .append('rect')
     .attr("class", "bar")
     .attr("x", function(d) { return x(d.month); })
@@ -110,7 +137,7 @@ function drawBars(chart, data) {
 }
 
 /*
-* Builds the bar chart by first defining range and domain,
+* builds the bar chart by first defining range and domain,
 * then it draws the axes
 */
 function buildBarchart(data) {
@@ -141,37 +168,37 @@ function buildBarchart(data) {
 }
 
 // scale for the chart
-scale = 0.5;
+var scale = 1.0,
 
 // width and height with margins accounted for
-var margin = {top: 20, right: 30, bottom: 50, left: 80},
+margin = {top: 30, right: 30, bottom: 70, left: 70},
     width = scale * (960 - margin.left - margin.right),
-    height = scale * (500 - margin.top - margin.bottom);
+    height = scale * (500 - margin.top - margin.bottom),
 
 // makes x-range bounds with ordinal data values
-var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
+x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1),
 
 // makes y-range
-var y = d3.scale.linear()
-    .range([height, 0]);
+y = d3.scale.linear()
+    .range([height, 0]),
 
 // use axis method to access standard axis format
-var yAxis = d3.svg.axis()
+yAxis = d3.svg.axis()
     .scale(y)
-    .orient("left");
+    .orient("left"),
 
 // use axis method to access standard axis format
-var xAxis = d3.svg.axis()
+xAxis = d3.svg.axis()
     .scale(x)
-    .orient("bottom");
+    .orient("bottom"),
 
 // initiates tooltip
-var tip = d3.tip()
+tip = d3.tip()
   .attr('class', 'd3-tip')
   .html(function(d) { 
     return "<span>" + d.value / 10 + " hours of Precipitation in " + d.month + "</span>";
-  })
+  });
 
 // parses dataJSON.txt and extracts data
 d3.json("dataJSON.txt", function(data) {
