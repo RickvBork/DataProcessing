@@ -106,7 +106,7 @@ function drawAxes(chart) {
     .attr("y", - margin.left)
     .attr("dy", ".71em")
     .style("text-anchor", "end")
-    .text("Precipitation in 0.1 hours");
+    .text("Precipitation per 0.1 hours");
 }
 
 /*
