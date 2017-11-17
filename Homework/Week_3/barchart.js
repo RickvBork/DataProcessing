@@ -29,7 +29,7 @@ function dataFormatter(unformattedDataDict) {
 	'07': 31,'08': 31, '09': 30, '10': 31, '11': 30, '12': 31},
 
   // code labels for barchart
-	months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
+	months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 	length = months.length;
 
   // catch leapyear
@@ -175,32 +175,35 @@ margin = {top: 30, right: 30, bottom: 70, left: 70},
     width = scale * (960 - margin.left - margin.right),
     height = scale * (500 - margin.top - margin.bottom),
 
-// makes x-range bounds with ordinal data values
-x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1),
+window.onload = function() {
 
-// makes y-range
-y = d3.scale.linear()
-    .range([height, 0]),
+  // makes x-range bounds with ordinal data values
+  x = d3.scale.ordinal()
+      .rangeRoundBands([0, width], .1),
 
-// use axis method to access standard axis format
-yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left"),
+  // makes y-range
+  y = d3.scale.linear()
+      .range([height, 0]),
 
-// use axis method to access standard axis format
-xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom"),
+  // use axis method to access standard axis format
+  yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left"),
 
-// initiates tooltip
-tip = d3.tip()
-  .attr('class', 'd3-tip')
-  .html(function(d) { 
-    return "<span>" + d.value / 10 + " hours of Precipitation in " + d.month + "</span>";
+  // use axis method to access standard axis format
+  xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom"),
+
+  // initiates tooltip
+  tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .html(function(d) { 
+      return "<span>" + d.value / 10 + " hours of Precipitation in " + d.month + "</span>";
+    });
+
+  // parses dataJSON.txt and extracts data
+  d3.json("dataJSON.txt", function(data) {
+    buildBarchart(dataFormatter(data)); 
   });
-
-// parses dataJSON.txt and extracts data
-d3.json("dataJSON.txt", function(data) {
-  buildBarchart(dataFormatter(data)); 
-});
+}
