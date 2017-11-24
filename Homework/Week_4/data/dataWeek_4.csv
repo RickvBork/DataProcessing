@@ -1,0 +1,105 @@
+# Country,Country Code,CPIA,GDP
+Afghanistan,AFG,2,1876
+Arab World,ARB,2.2,16756.49573
+Bangladesh,BGD,2.5,3580.694128
+Benin,BEN,3.5,2168.210407
+Bhutan,BTN,4.5,8743.985571
+Burkina Faso,BFA,3.5,1720.121585
+Burundi,BDI,2,777.9565012
+Cabo Verde,CPV,4,6553.034369
+Cambodia,KHM,2,3735.478623
+Cameroon,CMR,2.5,3285.731599
+Caribbean small states,CSS,3.9,15080.9115
+Central African Republic,CAF,2.5,698.8896075
+Chad,TCD,2.5,1991.247916
+Comoros,COM,2.5,1522.255706
+Congo. Dem. Rep,COD,2,800.7515654
+Congo. Rep, COG,2,5718.788841
+Cote d'Ivoire,CIV,3,3719.624562
+Dominica,DMA,4,10975.06471
+Early-demographic dividend,EAR,3,9142.494722
+East Asia & Pacific,EAS,3,16984.85591
+East Asia & Pacific (excluding high income),EAP,3,13853.03524
+East Asia & Pacific (IDA & IBRD countries),TEA,3,13999.98325
+Ethiopia,ETH,3,1734.918233
+Europe & Central Asia,ECS,2.6,31022.88485
+Europe & Central Asia (excluding high income),ECA,2.6,18783.41033
+Europe & Central Asia (IDA & IBRD countries),TEC,2.6,19535.67503
+Fragile and conflict affected situations,FCS,2.5,4246.974261
+Gambia,GMB,2,1689.07559
+Ghana,GHA,3,4293.57285
+Grenada,GRD,4,13927.50344
+Guinea,GIN,2.5,1310.687204
+Guinea-Bissau,GNB,2,1581.710425
+Guyana,GUY,3,7818.900522
+Haiti,HTI,2.5,1784.182184
+Heavily indebted poor countries (HIPC),HPC,2.6,2246.441792
+Honduras,HND,3,4738.079453
+IDA & IBRD total,IBT,2.9,10537.78622
+IDA blend,IDB,3,5173.062484
+IDA only,IDX,2.8,2822.842595
+IDA total,IDA,2.8,3611.298947
+Kenya,KEN,3,3155.94041
+Kiribati,KIR,3.5,2047.231611
+Kosovo,XKX,3,10066.39361
+Kyrgyz Republic,KGZ,3,3551.152704
+Lao PDR,LAO,2.5,6186.084162
+Late-demographic dividend,LTE,3.4,16624.26798
+Latin America & Caribbean,LCN,3.4,15418.22074
+Latin America & Caribbean (excluding high income),LAC,3.4,14920.62661
+Latin America & the Caribbean (IDA & IBRD countries),TLA,3.4,15328.70227
+Least developed countries: UN classification,LDC,2.7,2612.976547
+Lesotho,LSO,3,3029.335431
+Liberia,LBR,3,812.8867372
+Low & middle income,LMY,2.9,10360.36213
+Low income,LIC,2.5,1683.438063
+Lower middle income,LMC,2.8,6809.467376
+Madagascar,MDG,2.5,1506.009345
+Malawi,MWI,2.5,1169.313739
+Maldives,MDV,3,13198.88003
+Mali,MLI,3,2117.218178
+Marshall Islands,MHL,3.5,4072.354487
+Mauritania,MRT,3,3853.534663
+Micronesia. Fed. Sts,FSM,3.5,3593.228034
+Middle East & North Africa,MEA,2,19107.13243
+Middle income,MIC,3,11384.69875
+Moldova,MDA,2.5,5333.614925
+Mongolia,MNG,3.5,12220.39348
+Mozambique,MOZ,2.5,1217.111397
+Myanmar,MMR,3,5772.895394
+Nepal,NPL,3,2467.841139
+Nicaragua,NIC,2.5,5541.277284
+Niger,NER,3,978.4021911
+Nigeria,NGA,3,5867.141985
+Other small states,OSS,2.95,25022.27443
+Pacific island small states,PSS,3.4,5860.976086
+Pakistan,PAK,3,5249.288036
+Pre-demographic dividend,PRE,2.6,3757.497374
+Rwanda,RWA,3.5,1913.402063
+Samoa,WSM,4,6345.264119
+Sao Tome and Principe,STP,3.5,3229.058078
+Senegal,SEN,3.5,2567.80042
+Sierra Leone,SLE,3,1473.403805
+Small states,SST,3.3,22035.11737
+Solomon Islands,SLB,3,2235.899993
+South Asia,SAS,3,6063.657678
+South Asia (IDA & IBRD),TSA,3,6063.657678
+St. Lucia,LCA,4.5,11545.77584
+St. Vincent and the Grenadines,VCT,4,11605.61029
+Sub-Saharan Africa,SSF,2.6,3710.744957
+Sub-Saharan Africa (excluding high income),SSA,2.9,3708.482579
+Sub-Saharan Africa (IDA & IBRD countries),TSS,2.6,3710.744957
+Sudan,SDN,1.5,4730.292058
+Tajikistan,TJK,2.5,2980.090352
+Tanzania,TZA,3,2786.666719
+Togo,TGO,2.5,1490.926523
+Tonga,TON,3.5,5752.310637
+Tuvalu,TUV,3.5,3651.97748
+Uganda,UGA,2,1848.786757
+Upper middle income,UMC,3.7,16746.14464
+Uzbekistan,UZB,2,6514.326071
+Vanuatu,VUT,3,3081.372381
+World,WLD,2.9,16143.45266
+Yemen Rep.,YEM,1.5,2508.128228
+Zambia,ZMB,3,3922.335309
+Zimbabwe,ZWE,2,2006.374724

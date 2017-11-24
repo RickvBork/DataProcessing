@@ -1,0 +1,39 @@
+/*
+* Author: 	Rick van Bork
+* Std. nr.: 11990503
+*
+* Formats the output of the scatter.js file.
+*/
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.d3-tip {
+	position: absolute;
+	text-align: center;
+	padding: 5px;
+	font: 12px sans-serif;
+	background: white;
+	border: 0px;
+	border-radius: 4px;
+	border-style: solid;
+}
+
+span {
+    color: white;
+}
+
+.d3-tip2 {
+	border-radius: 25px;
+	border: 2px solid white;
+	padding: 20px;
+	background: white;
+}
