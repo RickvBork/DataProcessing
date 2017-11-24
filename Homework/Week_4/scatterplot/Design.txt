@@ -1,0 +1,14 @@
+Design
+
+The colors are selected by the d3 category10 method.
+These are clear, bright and different enough to not necessitate changing the colors manually.
+Also, the colors represent continents. Continents have no inherent color value (like rain is associated with blue), or gradient as these are ordinal.
+
+I have chosen to separate the country label and the extra information about CPIA and GDP per capita. This is to limit the information flow to the reader. 
+First they can search for a preferred country, then they can show the extra information if they so desire. 
+Hovering over a dot shows only the country label, this is to facilitate quick(er) searching than clicking. 
+If the user wishes to, he/she can click to show additional information. 
+The dots also change size after hovering over a dot or the legend.
+The axes and titles are clearly labeled. The user should be informed about what is plotted on the canvas. 
+The legend colors are circles to represent a bigger version of the dots on the canvas.
+A possible improvement is to let the user search for countries, either by manually typing them in, or by hovering over the continent legend and alphabetically ordering the country dots in the plot canvas.
