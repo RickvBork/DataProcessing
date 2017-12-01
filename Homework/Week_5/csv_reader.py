@@ -1,42 +1,76 @@
-# import libraries
+# Author: Rick van Bork
+# Std. nr: 11990503
+# 
+# CSV reader for KNMI stations with max, min, and average temperature.
+# 
+# It's functional... The final plan was to get rid of hardcode
+# and automise the dict creation. As all relevant data is in the data.txt file.
+# But I had too little time for this.
+
 import csv
 import json
 
 csv_file = 'data/data.txt'
 
 # initiate dataList
-dataDict = {'Bild': {'x': [], 'y0': [], 'y1': [], 'y2': []}, 'Lauwersoog': {'x': [], 'y0': [], 'y1': [], 'y2': []}, 'Maastricht': {'x': [], 'y0': [], 'y1': [], 'y2': []}}
-
-i = 0
+dataDict = {}
 
 # open correct infile
 with open(csv_file, newline = '') as csvfile:
 	rows = csv.reader(csvfile)
+
+	i = 0
+
+	line_colors = ['rgb(0, 0, 102)', 'rgb(0, 0, 204)', 'rgb(0, 102, 255)']
 
 	# for every row in file
 	for row in rows:
 
 		# if not empty and doesn't start with #
 		if not row[0].startswith('#'):
-			i += 1
-
-			print(row)
 
 			if int(row[0]) == 260:
-				dataDict['Bild']['x'].append(i)
-				dataDict['Bild']['y0'].append(row[2])
-				dataDict['Bild']['y1'].append(row[3])
-				dataDict['Bild']['y2'].append(row[4])
+				if i == 0:
+					dataDict['De Bilt'] = {}
+					dataDict['De Bilt']['Maximum'] = []
+					dataDict['De Bilt']['Minimum'] = []
+					dataDict['De Bilt']['Average'] = []
+					dataDict['De Bilt']['Average'].append({'x': row[1], 'y': row[2]})
+					dataDict['De Bilt']['Minimum'].append({'x': row[1], 'y': row[3]})
+					dataDict['De Bilt']['Maximum'].append({'x': row[1], 'y': row[4]})
+					i += 1
+				else:
+					dataDict['De Bilt']['Average'].append({'x': row[1], 'y': row[2]})
+					dataDict['De Bilt']['Minimum'].append({'x': row[1], 'y': row[3]})
+					dataDict['De Bilt']['Maximum'].append({'x': row[1], 'y': row[4]})
 			elif int(row[0]) == 277:
-				dataDict['Lauwersoog']['x'].append(i)
-				dataDict['Lauwersoog']['y0'].append(row[2])
-				dataDict['Lauwersoog']['y1'].append(row[3])
-				dataDict['Lauwersoog']['y2'].append(row[4])
+				if i == 1:
+					dataDict['Lauwersoog'] = {}
+					dataDict['Lauwersoog']['Maximum'] = []
+					dataDict['Lauwersoog']['Minimum'] = []
+					dataDict['Lauwersoog']['Average'] = []
+					dataDict['Lauwersoog']['Average'].append({'x': row[1], 'y': row[2]})
+					dataDict['Lauwersoog']['Minimum'].append({'x': row[1], 'y': row[3]})
+					dataDict['Lauwersoog']['Maximum'].append({'x': row[1], 'y': row[4]})
+					i += 1
+				else:
+					dataDict['Lauwersoog']['Average'].append({'x': row[1], 'y': row[2]})
+					dataDict['Lauwersoog']['Minimum'].append({'x': row[1], 'y': row[3]})
+					dataDict['Lauwersoog']['Maximum'].append({'x': row[1], 'y': row[4]})
 			elif int(row[0]) == 380:
-				dataDict['Maastricht']['x'].append(i)
-				dataDict['Maastricht']['y0'].append(row[2])
-				dataDict['Maastricht']['y1'].append(row[3])
-				dataDict['Maastricht']['y2'].append(row[4])
+				if i == 2:
+					dataDict['Maastricht'] = {}
+					dataDict['Maastricht']['Maximum'] = []
+					dataDict['Maastricht']['Minimum'] = []
+					dataDict['Maastricht']['Average'] = []
+					dataDict['Maastricht']['Average'].append({'x': row[1], 'y': row[2]})
+					dataDict['Maastricht']['Minimum'].append({'x': row[1], 'y': row[3]})
+					dataDict['Maastricht']['Maximum'].append({'x': row[1], 'y': row[4]})
+					i += 1
+				else:
+					dataDict['Maastricht']['Average'].append({'x': row[1], 'y': row[2]})
+					dataDict['Maastricht']['Minimum'].append({'x': row[1], 'y': row[3]})
+					dataDict['Maastricht']['Maximum'].append({'x': row[1], 'y': row[4]})
 
 # outfile name
 json_file = 'data_KNMI_.json'
