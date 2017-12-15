@@ -2,11 +2,7 @@
 * Author: Rick van Bork
 * Std. nr: 11990503
 *
-* Logic for drawing a multiline graph using d3.
-*
-* Lots of room for improvement, like in updateFocus(). No need to redo all
-* focus elements.
-* Not enough time to fully finish the project, but it is functional.
+* Logic for drawing a multiline graph using d3 lined to a grouped bar chart.
 */
 
 'use strict';
@@ -163,9 +159,6 @@ function buildFirstGraph(data) {
 			* Updates the graph after new dataset has been chosen.
 			*/
 			function updateGraph(data, station) {
-
-				// TODO:
-				// var datasets = ds0
 
 				var datasets = data[station];
 
@@ -573,6 +566,9 @@ function forceValue(d0, d1) {
 	};
 };
 
+/*
+* Formats data into correct format for grouped barchart.
+*/
 function formatBarchartData(d0, d1) {
 
 	// take data of first station, first dataset
@@ -658,6 +654,9 @@ function stationMinMax(ds0, ds1) {
 	return { 'min': min, 'max': max };
 };
 
+/*
+* Builds the title
+*/
 function makeChartTitle(width, marginTop, select, string0, string1) {
 
 	d3.select(select).select('title').remove();
