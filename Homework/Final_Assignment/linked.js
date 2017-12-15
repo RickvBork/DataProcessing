@@ -68,8 +68,8 @@ function mainFunction(error, data2016, data1963) {
 */
 function buildFirstGraph(data) {
 
-	var svgWidth = 500,
-	svgHeight = 250,
+	var svgWidth = 960,
+	svgHeight = 500,
 
 	svg = d3.select('body')
 		.insert('svg', ':first-child')
@@ -404,8 +404,8 @@ function buildFirstGraph(data) {
 function buildFirstChart(data2016, data1963) {
 
 	// force 1963 data to correct types and notation
-	var svgWidth = 500,
-	svgHeight = 250,
+	var svgWidth = 960,
+	svgHeight = 500,
 
 	svg = d3.select('body')
 		.insert('svg', ':first-child')
