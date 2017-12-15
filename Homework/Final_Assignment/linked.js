@@ -391,9 +391,6 @@ function buildFirstGraph(data) {
 					.style('stroke-dasharray', ('3, 3'))
 					.attr('stroke-width', 2)
 					.attr('stroke', setColor);
-
-				// USE DATA FOR UPDATE FUNCTION IN BARCHART
-				// console.log(d.x, d.y)
 			};
 			updateBarHeights(currentIndex);
 	  	};
@@ -434,8 +431,6 @@ function buildFirstChart(data2016, data1963) {
 	function drawLegend() {
 
 		var data = ["Maximum 2016", "1963", "Average 2016", "1963","Minimum 2016", "1963"];
-
-		console.log(d3.select('body').selectAll('rect'));
 
 		var legend = svg.selectAll('.bar.legend')
 			.data(data)
@@ -601,11 +596,6 @@ function updateChart(station) {
 	min = temperatures.min,
 	max = temperatures.max;
 
-	// DEBUG
-	console.log('temperatures of ' + station + ' are ' + min + ', ' + max);
-
-	console.log(selectStation)
-
 	// set the new y domain
 	barY.domain([min, max]);
 
@@ -623,8 +613,6 @@ function updateChart(station) {
 * Uses an index from the mouseover of the multi-line chart to select the data from both datasets and updates the height of the bars in the barchart.
 */
 function updateBarHeights(index) {
-
-	console.log(index);
 
 	var data0 = d0[selectStation],
 	data1 = d1[selectStation];
@@ -674,14 +662,10 @@ function makeChartTitle(width, marginTop, select, string0, string1) {
 
 	d3.select(select).select('title').remove();
 
-	console.log(select);
-
 	// append to child g of svg element
 	var titleEnter = d3.select(select).selectAll('.transform'),
 		centerWidth = width / 2,
 		centerHeight = - marginTop / 2
-
-	console.log(titleEnter);
 
 	titleEnter.append('text')
 			.attr('class', 'title')
